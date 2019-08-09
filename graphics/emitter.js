@@ -43,7 +43,6 @@ class Emitter {
 
     draw(canvas) {
         canvas.CTX.fillStyle = this.style;
-        console.log(this.particles[0].location);
         for(let particle of this.particles) {
             particle.draw(canvas);
         }
