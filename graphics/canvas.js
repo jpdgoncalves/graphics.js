@@ -3,8 +3,8 @@ const CTX = CANVAS.getContext("2d");
 let mouseX = 0;
 let mouseY = 0;
 
-let should_animate = false;
 const rect = CANVAS.getBoundingClientRect();
+let should_animate = false;
 
 /**
  * 
