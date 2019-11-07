@@ -72,6 +72,30 @@ function maxMinCoords(points) {
     },{});
 }
 
+/**
+ * 
+ * @param {number} width 
+ * @param {number} height 
+ * @param {number} xCells 
+ * @param {number} yCells 
+ */
+function Grid(width, height, xCells, yCells) {
+
+    /**
+     * 
+     * @param {number} xPos 
+     * @param {number} yPos 
+     */
+    let getCoords = function(xPos,yPos) {
+        return [
+            (width * xPos) / xCells,
+            (height * yPos) / yCells 
+        ];
+    };
+
+    return getCoords;
+}
+
 class Point {
 
     /**
@@ -342,6 +366,7 @@ export {
     pointsAsNumberPairs,
     numberPairsAsPoints,
     maxMinCoords,
+    Grid,
     Point,
     Vector,
     BoundingBox,
