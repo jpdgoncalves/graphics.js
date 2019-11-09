@@ -11,18 +11,14 @@ let should_animate = false;
  * @param {string} CSSclass 
  * @param {HTMLElement} container 
  */
-function initCanvas(CSSclass,container) {
+function initCanvas(CSSclass,container,height=100,width=100) {
+    
+    CANVAS.height=height;
+    CANVAS.width=width;
     CANVAS.classList.add(CSSclass);
     container.appendChild(CANVAS);
 
-    window.addEventListener("resize", resizeCanvas);
     CANVAS.addEventListener("mousemove", mouseMoveEvent);
-    resizeCanvas();
-}
-
-function resizeCanvas() {
-    CANVAS.height = window.innerHeight;
-    CANVAS.width = window.innerWidth;
 }
 
 /**
@@ -30,8 +26,8 @@ function resizeCanvas() {
  * @param {MouseEvent} event 
  */
 function mouseMoveEvent(event) {
-    mouseX = event.clientX - rect.left;
-    mouseY = event.clientY - rect.top;
+    mouseX = Math.round(event.clientX * (CANVAS.width / window.innerWidth));
+    mouseY = Math.round(event.clientY * (CANVAS.height / window.innerHeight));
 }
 
 function clearCanvas() {
@@ -123,6 +119,8 @@ function drawCircle(x,y,r) {
     CTX.fill();
 }
 
+let drawImage = CTX.drawImage;
+
 /**
  * 
  * @param {Function} update
@@ -158,6 +156,7 @@ export {
     drawFigure,
     drawRect,
     drawCircle,
+    drawImage,
     startAnimation,
     stopAnimation
 };
