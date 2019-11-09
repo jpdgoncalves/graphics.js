@@ -22,7 +22,12 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function getID() {
+    return Math.random()*Math.pow(10,17);
+}
+
 export {
     getRandomArbitrary,
-    getRandomInt
+    getRandomInt,
+    getID
 };
