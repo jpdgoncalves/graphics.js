@@ -1,9 +1,9 @@
 class Color {
 
     constructor(red,green,blue,alpha = 1) {
-        red = Number.isInteger(red) ? red : this.red;
-        green = Number.isInteger(green) ? green : this.green;
-        blue = Number.isInteger(blue) ? blue : this.blue;
+        red = Number.isInteger(red) ? red : 255;
+        green = Number.isInteger(green) ? green : 255;
+        blue = Number.isInteger(blue) ? blue : 255;
         alpha = typeof alpha === "number" ? alpha : 1;
 
         this.red = red >= 0 ? red % 256 : 0;
