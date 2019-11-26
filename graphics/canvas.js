@@ -1,162 +1,123 @@
-const CANVAS = document.createElement("canvas");
-const CTX = CANVAS.getContext("2d");
-let mouseX = 0;
-let mouseY = 0;
+import { getID } from "./utils.js";
+import { Point } from "./geometry/point.js";
 
-const rect = CANVAS.getBoundingClientRect();
-let should_animate = false;
+class Painter {
 
-/**
- * 
- * @param {string} CSSclass 
- * @param {HTMLElement} container 
- */
-function initCanvas(CSSclass,container,height=100,width=100) {
-    
-    CANVAS.height=height;
-    CANVAS.width=width;
-    CANVAS.classList.add(CSSclass);
-    container.appendChild(CANVAS);
+    /**
+     * 
+     * @param {number} height 
+     * @param {number} width 
+     */
+    constructor(height = 100, width = 100) {
+        this.canvas = document.createElement("canvas");
+        this.canvas.id = getID();
+        this.canvas.height = height;
+        this.canvas.width = width;
+        this.ctx = this.canvas.getContext("2d");
 
-    CANVAS.addEventListener("mousemove", mouseMoveEvent);
-}
-
-/**
- * 
- * @param {MouseEvent} event 
- */
-function mouseMoveEvent(event) {
-    mouseX = Math.round(event.clientX * (CANVAS.width / window.innerWidth));
-    mouseY = Math.round(event.clientY * (CANVAS.height / window.innerHeight));
-}
-
-function clearCanvas() {
-    CTX.clearRect(0,0,CANVAS.width,CANVAS.height);
-}
-/**
- * 
- * @param {number} x1 
- * @param {number} y1 
- * @param {number} x2 
- * @param {number} y2 
- */
-function drawLine(x1,y1,x2,y2) {
-    CTX.beginPath();
-    CTX.moveTo(x1,y1);
-    CTX.lineTo(x2,y2);
-    CTX.stroke();
-}
-/**
- * 
- * @param {[number,number][]} coordinates 
- */
-function drawLines(coordinates) {
-    let start = coordinates[0];
-    CTX.beginPath();
-    CTX.moveTo(start[0],start[1]);
-
-    for(let i = 1; i < coordinates.length; i++) {
-        let point = coordinates[i];
-        CTX.lineTo(point[0],point[1]);
+        //Reflect
+        this.image = this.ctx.drawImage;
     }
 
-    CTX.stroke();
-}
-
-/**
- * 
- * @param {[number,number][]} coordinates 
- */
-function drawFigureLines(coordinates) {
-    let start = coordinates[0];
-    CTX.beginPath();
-    CTX.moveTo(start[0],start[1]);
-
-    for(let i = 1; i < coordinates.length; i++) {
-        let point = coordinates[i];
-        CTX.lineTo(point[0],point[1]);
+    /**
+     * 
+     * @param {HTMLElement} container 
+     */
+    displayIn(container) {
+        container.appendChild(this.canvas);
     }
 
-    CTX.closePath();
-    CTX.stroke();
-}
-
-/**
- * 
- * @param {[number,number][]} coordinates 
- */
-function drawFigure(coordinates) {
-    let start = coordinates[0];
-    CTX.beginPath();
-    CTX.moveTo(start[0],start[1]);
-
-    for(let i = 1; i < coordinates.length; i++) {
-        let point = coordinates[i];
-        CTX.lineTo(point[0],point[1]);
+    clear() {
+        this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height);
     }
 
-    CTX.closePath();
-    CTX.fill();
-}
+    /**
+     * 
+     * @param {Point} point1 
+     * @param {*} point2 
+     */
+    line(point1, point2) {
+        this.ctx.beginPath();
+        this.ctx.moveTo(point1.x, point1.y);
+        this.ctx.lineTo(point2.x, point2.y);
+        this.ctx.stroke();
+    }
 
-/**
- * 
- * @param {[number,number,number,number]} dimensions 
- */
-function drawRect(dimensions) {
-    let [x,y,w,h] = dimensions;
-    CTX.fillRect(x,y,w,h);
-}
-/**
- * 
- * @param {number} x 
- * @param {number} y 
- * @param {number} r 
- */
-function drawCircle(x,y,r) {
-    CTX.beginPath();
-    CTX.arc(x,y,r,0,Math.PI * 2);
-    CTX.fill();
-}
+    /**
+     * 
+     * @param {Point[]} points 
+     */
+    lines(points) {
+        let startPoint = points[0];
+        this.ctx.beginPath();
+        this.ctx.moveTo(startPoint.x, startPoint.y);
 
-let drawImage = CTX.drawImage;
-
-/**
- * 
- * @param {Function} update
- * @param {Function} draw
- */
-function startAnimation(update,draw) {
-    let callback = function() {
-        if(should_animate) {
-            clearCanvas();
-            update();
-            draw();
-            window.requestAnimationFrame(callback);
+        for (let i = 1; i < points.length; i++) {
+            let point = points[i];
+            this.ctx.lineTo(point.x, point.y);
         }
-    }
-    should_animate = true;
-    window.requestAnimationFrame(callback);
-}
 
-function stopAnimation() {
-    should_animate = false;
+        this.ctx.stroke();
+    }
+
+    /**
+     * 
+     * @param {Point[]} points 
+     */
+    strokeFigure(points) {
+        let startPoint = points[0];
+        this.ctx.beginPath();
+        this.ctx.moveTo(startPoint.x, startPoint.y);
+
+        for (let i = 1; i < points.length; i++) {
+            let point = points[i];
+            this.ctx.lineTo(point.x, point.y);
+        }
+
+        this.ctx.closePath();
+        this.ctx.stroke();
+    }
+
+    /**
+     * 
+     * @param {Point[]} points 
+     */
+    fillFigure(points) {
+        let startPoint = points[0];
+        this.ctx.beginPath();
+        this.ctx.moveTo(startPoint.x, startPoint.y);
+
+        for (let i = 1; i < points.length; i++) {
+            let point = points[i];
+            this.ctx.lineTo(point.x, point.y);
+        }
+
+        this.ctx.closePath();
+        this.ctx.fill();
+    }
+
+    /**
+     * 
+     * @param {Point} point1 
+     * @param {Point} point2 
+     */
+    rect(point1, point2) {
+        this.ctx.fillRect(point1.x, point1.y, point2.x - point1.x, point2.y - point1.y);
+    }
+
+    /**
+     * 
+     * @param {Point} center 
+     * @param {number} radius 
+     */
+    circle(center, radius) {
+        this.ctx.beginPath();
+        this.ctx.arc(center.x, center.y, radius, 0, Math.PI * 2);
+        this.ctx.fill();
+    }
+    
 }
 
 export {
-    CANVAS,
-    CTX,
-    mouseX,
-    mouseY,
-    initCanvas,
-    clearCanvas,
-    drawLine,
-    drawLines,
-    drawFigureLines,
-    drawFigure,
-    drawRect,
-    drawCircle,
-    drawImage,
-    startAnimation,
-    stopAnimation
-};
+    Painter
+}

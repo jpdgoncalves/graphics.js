@@ -1,22 +1,7 @@
-import {calculateVector, calculateDistance, pointsAsNumberPairs, numberPairsAsPoints, maxMinCoords, Grid} from "./geometry/functions.js";
-import {BoundingBox} from "./geometry/boundingbox.js";
-import {Figure} from "./geometry/figure.js";
-import {Graph} from "./geometry/graph.js";
-import {Point} from "./geometry/point.js";
-import {Segment} from "./geometry/segment.js";
-import {Vector} from "./geometry/vector.js";
-
-export {
-    calculateVector,
-    calculateDistance,
-    pointsAsNumberPairs,
-    numberPairsAsPoints,
-    maxMinCoords,
-    Grid,
-    Point,
-    Vector,
-    BoundingBox,
-    Figure,
-    Segment,
-    Graph
-}
+export {calculateVector, calculateDistance, pointsAsNumberPairs, numberPairsAsPoints, maxMinCoords, Grid} from "./geometry/functions.js";
+export {BoundingBox} from "./geometry/boundingbox.js";
+export {Figure} from "./geometry/figure.js";
+export {Graph} from "./geometry/graph.js";
+export {Point} from "./geometry/point.js";
+export {Segment} from "./geometry/segment.js";
+export {Vector} from "./geometry/vector.js";
