@@ -101,7 +101,7 @@ class Painter {
      * @param {Point} point1 
      * @param {Point} point2 
      */
-    rect(point1, point2) {
+    fillRect(point1, point2) {
         this.ctx.fillRect(point1.x, point1.y, point2.x - point1.x, point2.y - point1.y);
     }
 
@@ -110,7 +110,7 @@ class Painter {
      * @param {Point} center 
      * @param {number} radius 
      */
-    circle(center, radius) {
+    strokeCircle(center, radius) {
         this.ctx.beginPath();
         this.ctx.arc(center.x, center.y, radius, 0, Math.PI * 2);
         this.ctx.fill();
