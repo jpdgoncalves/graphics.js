@@ -35,6 +35,10 @@ class Painter {
         container.appendChild(this.canvas);
     }
 
+    undisplay() {
+        this.canvas.parentElement.removeChild(this.canvas);
+    }
+
     clear() {
         this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height);
     }
