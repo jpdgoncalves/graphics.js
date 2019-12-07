@@ -144,7 +144,11 @@ class Painter {
      * @param {[number,number]} center 
      * @param {number} radius 
      */
+<<<<<<< HEAD
     fillCircle(center,radius) {
+=======
+    circle(center, radius) {
+>>>>>>> parent of 91a85de... Painter class
         this.ctx.beginPath();
         this.ctx.arc(center[0], center[1], radius, 0, Math.PI * 2);
         this.ctx.fill();
