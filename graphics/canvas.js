@@ -1,5 +1,4 @@
 import { getID } from "./utils.js";
-import { Point } from "./geometry/point.js";
 
 class Painter {
 
@@ -16,7 +15,16 @@ class Painter {
         this.ctx = this.canvas.getContext("2d");
 
         //Reflect
-        this.image = this.ctx.drawImage;
+        this.drawImage = this.ctx.drawImage;
+    }
+
+    get color() {
+        return this.ctx.fillStyle;
+    }
+
+    set color(color) {
+        this.ctx.fillStyle = color;
+        this.ctx.strokeStyle = color;
     }
 
     /**
@@ -33,28 +41,28 @@ class Painter {
 
     /**
      * 
-     * @param {Point} point1 
-     * @param {*} point2 
+     * @param {[number,number]} point1 
+     * @param {[number,number]} point2 
      */
     line(point1, point2) {
         this.ctx.beginPath();
-        this.ctx.moveTo(point1.x, point1.y);
-        this.ctx.lineTo(point2.x, point2.y);
+        this.ctx.moveTo(point1[0], point1[1]);
+        this.ctx.lineTo(point2[0], point2[1]);
         this.ctx.stroke();
     }
 
     /**
      * 
-     * @param {Point[]} points 
+     * @param {[number,number][]} points 
      */
     lines(points) {
         let startPoint = points[0];
         this.ctx.beginPath();
-        this.ctx.moveTo(startPoint.x, startPoint.y);
+        this.ctx.moveTo(startPoint[0], startPoint[1]);
 
         for (let i = 1; i < points.length; i++) {
-            let point = points[i];
-            this.ctx.lineTo(point.x, point.y);
+            let [x,y] = points[i];
+            this.ctx.lineTo(x, y);
         }
 
         this.ctx.stroke();
@@ -62,16 +70,16 @@ class Painter {
 
     /**
      * 
-     * @param {Point[]} points 
+     * @param {[number,number][]} points 
      */
     strokeFigure(points) {
         let startPoint = points[0];
         this.ctx.beginPath();
-        this.ctx.moveTo(startPoint.x, startPoint.y);
+        this.ctx.moveTo(startPoint[0], startPoint[1]);
 
         for (let i = 1; i < points.length; i++) {
-            let point = points[i];
-            this.ctx.lineTo(point.x, point.y);
+            let [x,y] = points[i];
+            this.ctx.lineTo(x, y);
         }
 
         this.ctx.closePath();
@@ -80,16 +88,16 @@ class Painter {
 
     /**
      * 
-     * @param {Point[]} points 
+     * @param {[number,number][]} points 
      */
     fillFigure(points) {
         let startPoint = points[0];
         this.ctx.beginPath();
-        this.ctx.moveTo(startPoint.x, startPoint.y);
+        this.ctx.moveTo(startPoint[0], startPoint[1]);
 
         for (let i = 1; i < points.length; i++) {
-            let point = points[i];
-            this.ctx.lineTo(point.x, point.y);
+            let [x,y] = points[i];
+            this.ctx.lineTo(x, y);
         }
 
         this.ctx.closePath();
@@ -98,21 +106,34 @@ class Painter {
 
     /**
      * 
-     * @param {Point} point1 
-     * @param {Point} point2 
+     * @param {[number,number]} point1 
+     * @param {[number,number]} point2 
      */
     fillRect(point1, point2) {
-        this.ctx.fillRect(point1.x, point1.y, point2.x - point1.x, point2.y - point1.y);
+        let [x1,y1] = point1;
+        let [x2,y2] = point2;
+        this.ctx.fillRect(x1, y1, x2 - x1, y2 - y1);
     }
 
     /**
      * 
-     * @param {Point} center 
+     * @param {[number,number]} center 
      * @param {number} radius 
      */
     strokeCircle(center, radius) {
         this.ctx.beginPath();
-        this.ctx.arc(center.x, center.y, radius, 0, Math.PI * 2);
+        this.ctx.arc(center[0], center[1], radius, 0, Math.PI * 2);
+        this.ctx.stroke();
+    }
+
+    /**
+     * 
+     * @param {[number,number]} center 
+     * @param {number} radius 
+     */
+    fillCircle(center,radius) {
+        this.ctx.beginPath();
+        this.ctx.arc(center[0], center[1], radius, 0, Math.PI * 2);
         this.ctx.fill();
     }
     
