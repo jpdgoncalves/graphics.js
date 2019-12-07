@@ -15,7 +15,7 @@ class Painter {
         this.ctx = this.canvas.getContext("2d");
 
         //Reflect
-        this.drawImage = this.ctx.drawImage;
+        this.image = this.ctx.drawImage;
     }
 
     get color() {
@@ -113,6 +113,17 @@ class Painter {
         let [x1,y1] = point1;
         let [x2,y2] = point2;
         this.ctx.fillRect(x1, y1, x2 - x1, y2 - y1);
+    }
+
+    /**
+     * 
+     * @param {[number,number]} point1 
+     * @param {[number,number]} point2 
+     */
+    strokeRect(point1,point2) {
+        let [x1,y1] = point1;
+        let [x2,y2] = point2;
+        this.ctx.strokeRect(x1, y1, x2 - x1, y2 - y1);
     }
 
     /**
